@@ -1,6 +1,5 @@
 ###
 ### Author: Daniel Frost
-### Course: CSc 110
 ### Description: This program combines a still image
 ###              with a green, blue or red screen. This
 ###              can also be applied with a background
