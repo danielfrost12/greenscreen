@@ -75,32 +75,32 @@ def main():
     #loads pixels
     gs_file_pixels,gs_width,gs_height = load_image_pixels(gs_file)
     fi_file_pixels,fi_width,fi_height = load_image_pixels(fi_file)
-    if gs_width != fi_width or gs_height!=fi_height:
+    if not (gs_width == fi_width and gs_height == fi_height):
         print('Images not the same size. Will exit.')
         exit(0)
     out_file = input('Enter output file name\n')
-    out_file_pixels = list()
+    out_file_pixels = []
     cd = float(channel_difference)
 
     #greenscreen algorithm: generates a new image
-    #based on two input values
+        #based on two input values
     for row in range(len(gs_file_pixels)):
-        out_pixels_row = list()
+        out_pixels_row = []
         for column in range(len(gs_file_pixels[row])):
             pixels = gs_file_pixels[row][column]
             r = pixels[0]
             g = pixels[1]
             b = pixels[2]
-            if(channel == 'r'):
-               if(r > g*cd and r > b*cd):
-                   out_pixels_row.append(fi_file_pixels[row][column])
-               else:
-                   out_pixels_row.append(pixels)
-            elif(channel == 'g'):
-               if(g > r*cd and g > b*cd):
-                   out_pixels_row.append(fi_file_pixels[row][column])
-               else:
-                   out_pixels_row.append(pixels)
+            if channel == 'g':
+                if(g > r*cd and g > b*cd):
+                    out_pixels_row.append(fi_file_pixels[row][column])
+                else:
+                    out_pixels_row.append(pixels)
+            elif channel == 'r':
+                if(r > g*cd and r > b*cd):
+                    out_pixels_row.append(fi_file_pixels[row][column])
+                else:
+                    out_pixels_row.append(pixels)
             else:
                 if(b > r*cd and b > g*cd):
                    out_pixels_row.append(fi_file_pixels[row][column])
@@ -108,7 +108,6 @@ def main():
                    out_pixels_row.append(pixels)
 
         out_file_pixels.append(out_pixels_row)
-
    #opens and writes the file
     f = open(out_file, 'w')
     f.write('P3\n')
