@@ -1,15 +1,3 @@
-###
-### Author: Daniel Frost
-### Description: This program combines a still image
-###              with a green, blue or red screen. This
-###              can also be applied with a background
-###              or fill use case. This program will
-###              operate on PPM images. This program will
-###              also have a specific algorithm in order
-###              to generate a new image based on two input
-###              values.
-###
-
 from os import _exit as exit
 
 def get_image_dimensions_string(file_name):
@@ -75,32 +63,32 @@ def main():
     #loads pixels
     gs_file_pixels,gs_width,gs_height = load_image_pixels(gs_file)
     fi_file_pixels,fi_width,fi_height = load_image_pixels(fi_file)
-    if not (gs_width == fi_width and gs_height == fi_height):
+    if gs_width != fi_width or gs_height!=fi_height:
         print('Images not the same size. Will exit.')
         exit(0)
     out_file = input('Enter output file name\n')
-    out_file_pixels = []
+    out_file_pixels = list()
     cd = float(channel_difference)
 
     #greenscreen algorithm: generates a new image
-        #based on two input values
+    #based on two input values
     for row in range(len(gs_file_pixels)):
-        out_pixels_row = []
+        out_pixels_row = list()
         for column in range(len(gs_file_pixels[row])):
             pixels = gs_file_pixels[row][column]
             r = pixels[0]
             g = pixels[1]
             b = pixels[2]
-            if channel == 'g':
-                if(g > r*cd and g > b*cd):
-                    out_pixels_row.append(fi_file_pixels[row][column])
-                else:
-                    out_pixels_row.append(pixels)
-            elif channel == 'r':
-                if(r > g*cd and r > b*cd):
-                    out_pixels_row.append(fi_file_pixels[row][column])
-                else:
-                    out_pixels_row.append(pixels)
+            if(channel == 'r'):
+               if(r > g*cd and r > b*cd):
+                   out_pixels_row.append(fi_file_pixels[row][column])
+               else:
+                   out_pixels_row.append(pixels)
+            elif(channel == 'g'):
+               if(g > r*cd and g > b*cd):
+                   out_pixels_row.append(fi_file_pixels[row][column])
+               else:
+                   out_pixels_row.append(pixels)
             else:
                 if(b > r*cd and b > g*cd):
                    out_pixels_row.append(fi_file_pixels[row][column])
@@ -108,6 +96,7 @@ def main():
                    out_pixels_row.append(pixels)
 
         out_file_pixels.append(out_pixels_row)
+
    #opens and writes the file
     f = open(out_file, 'w')
     f.write('P3\n')
