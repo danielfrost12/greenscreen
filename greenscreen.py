@@ -43,8 +43,7 @@ def load_image_pixels(file_name):
     return pixels, width, height
 
 def main():
-    '''
-    The main function loads the pixels from the file,
+    '''The main function loads the pixels from the file,
     uses an algorithm to generate a new image based on the
     users two input values, and opens and writes the file.
     f.write: writes the user file after implementation of algorithm
